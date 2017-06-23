@@ -1,5 +1,7 @@
-package in.daocloud.java.nev.access.runner;
+package io.daocloud.java.nev.access.runner;
 
+import io.daocloud.java.nev.access.runner.handle.DataSendHandler;
+import io.daocloud.java.nev.access.runner.utils.ConfigProperties;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -20,6 +22,7 @@ import lombok.extern.log4j.Log4j2;
 public class NevAccessRunner {
 
     static Bootstrap bossGroup = new Bootstrap();
+    private static ConfigProperties configProperties = ConfigProperties.configProperties();
 
     public static void main(String[] args) {
         /*
@@ -43,13 +46,13 @@ public class NevAccessRunner {
                 }
             });
 
-            for (int i = 0; i < 1000; i++) {
-                log.info("make connect to access id {}", i);
-                connect("10.99.5.100", 15005);
+            for (int i = 0; i < configProperties.connectNumber(); i++) {
+                log.info("make {} connect  ", i);
+                connect(configProperties.connectIp(), configProperties.connectPort());
             }
 
             // Start the client.
-            ChannelFuture f = connect("10.99.5.100", 15005).sync();
+            ChannelFuture f = connect(configProperties.connectIp(), configProperties.connectPort()).sync();
 
             // Wait until the connection is closed.
             f.channel().closeFuture().sync();

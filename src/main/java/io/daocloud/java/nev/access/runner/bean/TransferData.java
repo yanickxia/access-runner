@@ -1,4 +1,4 @@
-package in.daocloud.java.nev.access.runner;
+package io.daocloud.java.nev.access.runner.bean;
 
 import lombok.Builder;
 import lombok.Data;

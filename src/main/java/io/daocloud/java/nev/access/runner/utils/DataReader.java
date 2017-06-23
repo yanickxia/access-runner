@@ -1,5 +1,9 @@
-package in.daocloud.java.nev.access.runner;
+package io.daocloud.java.nev.access.runner.utils;
 
+import io.daocloud.java.nev.access.runner.bean.AskCommandType;
+import io.daocloud.java.nev.access.runner.bean.CommandType;
+import io.daocloud.java.nev.access.runner.bean.EncryptType;
+import io.daocloud.java.nev.access.runner.bean.TransferData;
 import io.netty.buffer.ByteBuf;
 
 import java.nio.ByteBuffer;
