@@ -3,10 +3,7 @@ package io.daocloud.java.nev.access.runner;
 import io.daocloud.java.nev.access.runner.handle.DataSendHandler;
 import io.daocloud.java.nev.access.runner.utils.ConfigProperties;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -21,7 +18,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class NevAccessRunner {
 
-    static Bootstrap bossGroup = new Bootstrap();
+    private static Bootstrap bossGroup = new Bootstrap();
     private static ConfigProperties configProperties = ConfigProperties.configProperties();
 
     public static void main(String[] args) {
@@ -33,7 +30,7 @@ public class NevAccessRunner {
         /*
          * Netty Server Service
          */
-        EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors() - 2);
+        EventLoopGroup workerGroup = new NioEventLoopGroup(Runtime.getRuntime().availableProcessors());
 
         try {
             bossGroup.group(workerGroup);
@@ -64,8 +61,15 @@ public class NevAccessRunner {
     }
 
 
-    public static ChannelFuture connect(String host, int port) {
-        return bossGroup.connect(host, port);
+    private static ChannelFuture connect(String host, int port) {
+        return bossGroup.connect(host, port).addListener((ChannelFutureListener) future -> {
+            if (future.isSuccess()) {
+                System.out.println("Connection established");
+            } else {
+                System.err.println("Connection attempt failed");
+                future.cause().printStackTrace();
+            }
+        });
     }
 
 }
