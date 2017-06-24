@@ -18,7 +18,7 @@ public class RedisHelper {
     @Test
     public void init_redis() {
         StatefulRedisConnection<String, String> statefulRedisConnection = redisClient.connect();
-        for (int i = 1; i < 50001; i++) {
+        for (int i = 1; i < 20001; i++) {
             statefulRedisConnection.sync()
                     .rpush(configProperties.redisVinsKey(), "LDCTEST00000" + StringUtils.leftPad(String.valueOf(i), 5, "0"));
         }

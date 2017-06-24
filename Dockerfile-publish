@@ -1,0 +1,13 @@
+FROM java
+
+LABEL maintainer "yann.xi1a@daocloud.io"
+
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo "Asia/Shanghai" > /etc/timezone
+
+COPY /project/build/libs/access-runner-all-1.0-SNAPSHOT.jar  \
+/usr/src/myapp/access-runner-all-1.0-SNAPSHOT.jar
+
+WORKDIR /usr/src/myapp/
+
+ENTRYPOINT java -jar access-runner-all-1.0-SNAPSHOT.jar

@@ -48,7 +48,7 @@ public class DataSendHandler extends ChannelInboundHandlerAdapter {
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         vinPoolService.backRedisVin(vin);
         log.info("channelInactive, back vin {}", vin);
-        scheduledFuture.cancel(true);
+        scheduledFuture.cancel(false);
         ctx.close();
     }
 
