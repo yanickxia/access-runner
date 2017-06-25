@@ -37,7 +37,7 @@ public class DataSendHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
 
-        vin = vinPoolService.getEnableVinFromRedis();
+        vin = vinPoolService.getEnableVin();
         log.info("get enable vin from redis {}", vin);
 
         scheduledFuture = scheduledService.scheduleAtFixedRate(
@@ -46,7 +46,7 @@ public class DataSendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        vinPoolService.backRedisVin(vin);
+        vinPoolService.backVin(vin);
         log.error("channelInactive, back vin {}", vin);
         scheduledFuture.cancel(false);
         ctx.close();

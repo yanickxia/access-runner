@@ -69,6 +69,18 @@ public class ConfigProperties {
         return configProperties;
     }
 
+    public Boolean redisEnable() {
+        return config.getBoolean("redis.enable");
+    }
+
+    public String vinPre() {
+        return config.getString("vin.pre");
+    }
+
+    public Integer vinBegin() {
+        return config.getInt("vin.begin");
+    }
+
     public String redisUrl() {
         return config.getString("redis.url");
     }
