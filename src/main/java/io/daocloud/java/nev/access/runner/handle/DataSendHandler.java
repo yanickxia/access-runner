@@ -1,11 +1,11 @@
 package io.daocloud.java.nev.access.runner.handle;
 
-import io.daocloud.java.nev.access.runner.service.VinPoolService;
 import io.daocloud.java.nev.access.runner.bean.AskCommandType;
 import io.daocloud.java.nev.access.runner.bean.CommandType;
 import io.daocloud.java.nev.access.runner.bean.EncryptType;
 import io.daocloud.java.nev.access.runner.bean.TransferData;
 import io.daocloud.java.nev.access.runner.service.ScheduledService;
+import io.daocloud.java.nev.access.runner.service.VinPoolService;
 import io.daocloud.java.nev.access.runner.utils.ConfigProperties;
 import io.daocloud.java.nev.access.runner.utils.DataReader;
 import io.daocloud.java.nev.access.runner.utils.TestUtils;
@@ -47,7 +47,7 @@ public class DataSendHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         vinPoolService.backRedisVin(vin);
-        log.info("channelInactive, back vin {}", vin);
+        log.error("channelInactive, back vin {}", vin);
         scheduledFuture.cancel(false);
         ctx.close();
     }
