@@ -52,6 +52,11 @@ public class DataSendHandler extends ChannelInboundHandlerAdapter {
         ctx.close();
     }
 
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        log.error("error: {}", cause);
+        super.exceptionCaught(ctx, cause);
+    }
 }
 
 
