@@ -78,13 +78,25 @@ class SendDataJob implements Runnable {
                 .uniqueNo(vin)
                 .build();
 
-        byte[] newDatas = fakeLogin(fakeLogin);
+        byte[] newDatas = fake(fakeLogin);
         ctx.writeAndFlush(Unpooled.copiedBuffer(newDatas));
-
         log.info("vin {} send data ", vin);
+
+        TransferData realData = TestUtils.realSampleData;
+        TransferData fakeReal = TransferData.builder()
+                .data(realData.getData())
+                .askCommand(AskCommandType.COMMAND)
+                .command(CommandType.REAL_TIME_INFO)
+                .encryptType(EncryptType.NONE)
+                .len(realData.getLen())
+                .uniqueNo(vin)
+                .build();
+        newDatas = fake(fakeReal);
+        ctx.writeAndFlush(Unpooled.copiedBuffer(newDatas));
+        log.info("vin {} send real data ", vin);
     }
 
-    public static byte[] fakeLogin(TransferData transferData) {
+    public static byte[] fake(TransferData transferData) {
 
         byte[] s = new byte[]{0x23, 0x23};
         byte command = transferData.getCommand().getContent();
